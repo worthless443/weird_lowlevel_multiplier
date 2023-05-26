@@ -7,6 +7,7 @@ struct Store {
 	int value;
 };
 
+// this part is bad
 void get_last_digit(struct Store *store, int _start) { 
 	store->start = _start;
 	int w = 0,w1 = 0, start = _start;
@@ -18,7 +19,6 @@ void get_last_digit(struct Store *store, int _start) {
 			tmp>>=1;
 		}
 		e <<= 1;
-		// this part is bad
 		if(((start ^ e) - start) != 2) w1 = w;
 		++w;
 		start>>=1;
@@ -28,7 +28,6 @@ void get_last_digit(struct Store *store, int _start) {
 	for(int i=1;i<w1;++i)
 		tmp2=(tmp2<<1) + 1;
 	store->mask_bit_prev = tmp2;
-	// this part is messy too 	
 	tmp2 &= _start;
 	store->mskdout = tmp2;
 	tmp2 >>= 3;
