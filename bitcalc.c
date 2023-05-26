@@ -5,7 +5,18 @@ struct Store {
 	int start,mskdout,start_bit,mask_bit;
 	int  mask_bit_prev;
 	int value;
+	int bound;
 };
+
+int check_alignment(int _n, struct Store store) {
+	int n = _n;
+	int width = 0;
+	int mask_string = 1;
+	while(n) (n>>=1,++width);
+	mask_string <<= (width - 1);
+	store.bound = (_n << 1) & mask_string;
+	return ((_n  & mask_string) == _n);
+}
 
 // this part is bad
 void get_last_digit(struct Store *store, int _start) { 
@@ -38,6 +49,7 @@ void get_last_digit(struct Store *store, int _start) {
 int main(int argc, char **argv) {
 	int start = argc < 2 ? 355 : atoi(argv[1]);
 	struct Store store;
+	check_alignment(start,&store);
 	get_last_digit(&store,start);
 	printf("%d\n", store.value);
 	return 0;
