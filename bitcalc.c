@@ -138,6 +138,7 @@ int treverse_tree_logical(struct Llist *list) {
 	return res - ((res/100) * 100);	
 }
 
+#ifdef __MAIN__
 int main(int argc, char **argv) {
 	int start = argc < 2 ? 355 : atoi(argv[1]);
 	struct Llist *list = get_last_digit_as_tree(start);
@@ -157,3 +158,4 @@ int main(int argc, char **argv) {
 	//printf("%d\n", store.value);
 	return 0;
 }
+#endif
