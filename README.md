@@ -7,4 +7,4 @@ Aiming to use vector multipication instead of standard method of multipication b
 ## Work in progress
 Only multipication with specific numbers (those which are possibly aligned) work and doesn't work for anything <100 and >1023
 
-- 0: not explained yet
+- **(0)** __not explained yet__
