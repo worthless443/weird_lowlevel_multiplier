@@ -93,7 +93,6 @@ void free_list(struct Llist *list) {
 	free(list);
 } 
 
-
 //wow! very smart
 int get_last_digit2(int start) {
 	int mask = 1, _start = start,n=0;
@@ -117,7 +116,6 @@ int treverse_tree_logical(struct Llist *list) {
 	int res = 0; 
 	struct Llist out;	
 	struct Llist *rounded_list = get_last_digit_as_tree(list->round);
-	//printf("%d\n", rounded_list->n_diff);
 	if(rounded_list->diff > 0) {
 		while(1) {
 			if(rounded_list->next == NULL) break;

@@ -78,6 +78,7 @@ int multiply(char *a, char *b) {
 }
 
 int main(int argc, char **argv) {
+	int ret_main = 0;
 	if(argc < 3) {
 		fprintf(stderr, "give two numbers to multiply\n");
 		return 1;
@@ -86,4 +87,6 @@ int main(int argc, char **argv) {
 	int ret1 = multiply2(atoi(argv[1]),atoi(argv[2]));
 	printf("normal -> %d\n", ret0);
 	printf("explicit -> %d\n", ret1);
+	printf("exiting with %d\n", ret0 == ret1);
+
 }
