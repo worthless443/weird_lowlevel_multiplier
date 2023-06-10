@@ -5,6 +5,8 @@
 #include<bitcalc.h>
 
 #define _BASE_REF 100
+#define __OPT_MAX 21
+#define __OPT_MID 15
 
 int check_alignment(int _n, struct Store store) {
 	int n = _n;
@@ -22,7 +24,7 @@ void get_last_digit(struct Store *store, int _start) {
 	int w = 0,w1 = 0, start = _start;
 	int tmp2 = 1;
 	while(start) {
-		int tmp = start, i_c = 0, e = 1;
+		int tmp = start,e = 1;
 		while(tmp!=1) {
 			e = (e << 1) + 1;
 			tmp>>=1;
@@ -47,8 +49,8 @@ void get_last_digit(struct Store *store, int _start) {
 // this part is a party trick
 struct Llist *get_last_digit_as_tree(int start) {
 	struct Llist *list = malloc(sizeof(struct Llist));
-	int mask = 1, _start = start,n=0,sb_n = 0;
-	int round;
+	int mask = 1, _start = start,n=0;
+	int round = -1;
 	for(;(_start>>=1)>0;mask<<=1,++n);
 	if(n>=7) 
 		list->n_diff = 30*(1 + (n - 7));
@@ -61,23 +63,21 @@ struct Llist *get_last_digit_as_tree(int start) {
 	//else if(start/100 == 2) 
 	//	list->n_diff-=100;
 	int diff = start ^ mask;
-	if(n & 2 && n % 2) (round = mask + 2,diff-=2);
+	if((n & 2) && (n % 2)) (round = mask + 2,diff-=2);
 	else if(n & 2 && !(n % 2)) (round = mask - 4,diff+=4);
 	else if(!(n & 2) && !(n % 2)) (round = mask + 4,diff-=4);
-	else if(!(n & 2) && n % 2) (round = mask - 2,diff+=2);
+	else if(!(n & 2) && (n % 2)) (round = mask - 2,diff+=2);
 	else n = -1;
-	int _round = round;
-	//for(;(_round>>=1);++sb_n);
-	
 	//if(diff == 0) list->n_diff = 0;
+	if(start < 10 || start <= 0) {
+		list->next = NULL;
+		if(round <= 10) return list;
+		return list;
+	}
 	list->round = round;
 	list->diff = diff;
 	list->start = start;
-	if(list->start < 10 || list->start <= 0) {
-		list->next = NULL;
-		return list;
-	}
-	//printf("node - %d %d\n", round, diff);
+//	printf("node - %d %d\n", round, diff);
 	list->next = get_last_digit_as_tree(diff);
 	return list;
 }
@@ -112,10 +112,26 @@ int get_last_digit2(int start) {
 	return get_last_digit2(diff);
 }
 
+int check_correctness_bitwidth(struct Llist *list, int ret) {
+	if(list->diff == 0) return ret;
+	int diff = list->diff;
+	while(1) {
+		if(list->diff) ++ret;
+		else break;
+		list = list->next;
+	}
+	list = get_last_digit_as_tree(diff);
+	return check_correctness_bitwidth(list,ret);
+}
+
 int treverse_tree_logical(struct Llist *list) {
 	int res = 0; 
-	struct Llist out;	
 	struct Llist *rounded_list = get_last_digit_as_tree(list->round);
+	int count = check_correctness_bitwidth(rounded_list,0);
+	if(count == __OPT_MAX) {
+		fprintf(stderr, "The bit_length for integer too large (got: count = %d)\n", count);
+		return -1;
+	}
 	if(rounded_list->diff > 0) {
 		while(1) {
 			if(rounded_list->next == NULL) break;
@@ -144,16 +160,7 @@ int main(int argc, char **argv) {
 	int res = treverse_tree_logical(list);
 	printf("%d\n%d\n%d\n",last_i,res,(start/100)*100);
 	free_list(list);
-//	printf("%d\n",start - res);
-	//printf("%d\n", );
-	
-	//struct Llist *list = get_last_digit2(start);
-	//print_list(list);
-	//free_list(list);
-	//struct Store store;
-	//check_alignment(start,store);
 	//get_last_digit(&store,start);
-	//printf("%d\n", store.value);
 	return 0;
 }
 #endif

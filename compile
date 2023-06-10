@@ -1,2 +1,2 @@
 #!/bin/bash
-clang bitcalc.c normal.c -I./ -o mlt
+clang bitcalc.c normal.c -Wall -I./ -o mlt
