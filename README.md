@@ -3,7 +3,6 @@ Aiming to use vector multipication instead of standard method of multipication b
 # Core ideology
  * without needing any multipication instructions from the CPU
  * working only with bits to interpret base-10 integers as "components"(0)
-# Working with bits to interpret 
 ## Work in progress
 Only multipication with specific numbers (those which are possibly aligned) work and doesn't work for anything <100 and >1023
 
