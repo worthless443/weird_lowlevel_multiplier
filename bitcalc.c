@@ -128,7 +128,7 @@ int treverse_tree_logical(struct Llist *list) {
 	int res = 0; 
 	struct Llist *rounded_list = get_last_digit_as_tree(list->round);
 	int count = check_correctness_bitwidth(rounded_list,0);
-	if(count == __OPT_MAX) {
+	if(count >= __OPT_MAX) {
 		fprintf(stderr, "The bit_length for integer too large (got: count = %d)\n", count);
 		return -1;
 	}

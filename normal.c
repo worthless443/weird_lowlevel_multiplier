@@ -88,5 +88,6 @@ int main(int argc, char **argv) {
 	printf("normal -> %d\n", ret0);
 	printf("explicit -> %d\n", ret1);
 	printf("exiting with %d\n", ret0 == ret1);
+	return ret_main;
 
 }
